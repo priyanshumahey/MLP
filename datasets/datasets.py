@@ -1,14 +1,22 @@
 from torchvision import datasets
 import matplotlib.pyplot as plt
 
-def numbers_dataset(location='./data', download=True):
+def numbers_dataset(location='./data', download=True, normalize=False, Flatten=False):
     train_set = datasets.MNIST(location, train=True, download=download)
     test_set = datasets.MNIST(location, train=False, download=download)
+    
+    if normalize:
+        train_set_array = train_set.data.numpy()/255
+        train_set_labels = train_set.targets.numpy()/255
+        test_set_array = test_set.data.numpy()/255
+        test_set_labels = test_set.targets.numpy()/255
 
-    train_set_array = train_set.data.numpy()
-    train_set_labels = train_set.targets.numpy()
-    test_set_array = test_set.data.numpy()
-    test_set_labels = test_set.targets.numpy()
+    elif not normalize:
+        train_set_array = train_set.data.numpy()
+        train_set_labels = train_set.targets.numpy()
+        test_set_array = test_set.data.numpy()
+        test_set_labels = test_set.targets.numpy()
+
     return train_set_array, test_set_array, train_set_labels, test_set_labels
 
 def visualize(dataset, label, image_num):
